@@ -1,0 +1,46 @@
+import xlrd
+import xlwt
+
+fileRead = r"C:\dia\10_Tuborg\Id_doctor_sent1.xls"
+sheetRead = "111"
+
+fileWrite = r"C:\dia\10_Tuborg\Id_doctor_sent2.xls"
+book = xlwt.Workbook(encoding="utf-8")
+sheet = book.add_sheet("111",cell_overwrite_ok=True)
+
+def makeXLS():
+    workbook = xlrd.open_workbook(fileRead, formatting_info=True)
+    worksheet = workbook.sheet_by_name(sheetRead)
+   
+    sheet.write(0, 0, "ID")
+    sheet.write(0, 1, "SynID")
+    sheet.write(0, 2, "GRP")
+    sheet.write(0, 3, "Cnt")
+    sheet.write(1, 0, "0")
+    sheet.write(1, 1, "0")
+    sheet.write(1, 2, "1")
+    sheet.write(1, 3, "0")
+    newRaw1 = 2
+    strXLS = ""
+    for row in range(0,worksheet.nrows-2):
+        a = str(int(worksheet.cell(row+2, 0).value))
+        for i in range(1,36):
+            b = str(i)
+            if i < 10:
+                b = "0" + b
+            strXLS = a + b
+            sheet.write(newRaw1, 0, strXLS)
+            sheet.write(newRaw1, 1, strXLS)
+            sheet.write(newRaw1, 2, "1")
+            sheet.write(newRaw1, 3, "0")
+            newRaw1 += 1
+
+    book.save(fileWrite)
+       
+
+def main():
+    makeXLS()
+
+
+if __name__== "__main__":
+  main()
