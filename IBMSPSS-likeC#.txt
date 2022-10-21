@@ -1,0 +1,490 @@
+'deleted internal information befor
+'.....
+
+
+section MainScript
+
+	if panel = {_2} then
+
+    elseif panel = {_8} then
+
+    else
+    	goto Term
+    	panel.Categories.Filter = {_2,_8}
+    	panel.Ask()
+    end if
+    
+    S1.Ask()
+
+
+    S2.Ask()
+    if S2 < 18 or S2 > 65 then goto Term
+    S2_Code = CodeAge(S2, {18,26,36,51,66}, DefinedCategories(S2_Code))
+    AddInfoBanner(IoM, S2_Code)
+
+	help = {}
+	help = help + {_104}
+    help = help + {_42}
+    help = help + {_11,_12,_13,_14,_15,_67,_68,_69,_88,_89,_105,_150,_151,_152}
+    help = help + {_1,_2,_16,_17,_18,_19,_20,_21,_22,_53,_70,_71,_72,_73,_74,_90,_153,_167,_168,_169,_170}
+    S3.Categories.Filter = help + {_999}
+    S3.Ask()
+    if S3 = {_999} then goto Term
+    
+    help = {}	
+	if containsAny(S3, CatRange(104,146) + CatRange(166,170) + {_177}) then help = {_1}
+	if containsAny(S3, CatRange(42,52)) then help = {_2}
+	if containsAny(S3, CatRange(150,165) + CatRange(172,176)) then help = {_3}
+	if containsAny(S3, CatRange(53,66) + {_149}) then help = {_4}
+	if containsAny(S3, CatRange(11,41)) then help = {_5}
+	if containsAny(S3, CatRange(88,103)) then help = {_6}
+	if containsAny(S3, CatRange(67,86) + {_171}) then help = {_7}
+	if containsAny(S3, CatRange(1,10)) then help = {_8}
+	if containsAny(S3, {_104}) then help = {_0}
+'	if containsAny(S1, {_42}) then help = {_3}
+	if help = {} then goto Term
+	regFO = help
+	AddInfoBanner(IOM, S3)
+	AddInfoBanner(IOM, regFO)
+    if not fnQuotaCheck(IOM, "regFO") then goto OverQuota
+    
+    if panel = {_2} then
+    	AddInfoBanner(IOM, panel)
+    	if not fnQuotaCheck(IOM, "S1_OMI") then goto OverQuota
+    	if not fnQuotaCheck(IOM, "S2_Code_OMI") then goto OverQuota
+    elseif panel = {_8} then
+    	AddInfoBanner(IOM, panel)
+    	if not fnQuotaCheck(IOM, "S1_ISay") then goto OverQuota
+    	if not fnQuotaCheck(IOM, "S2_Code_ISay") then goto OverQuota
+    else
+    	
+    end if
+    
+
+    S4.Ask()
+    if containsAny(S4, {_1,_2}) then goto Term
+
+'ВИДЫ ОТДЫХА
+'test:
+
+    Q1.Ask()
+
+    if Q1 <> {_excl99} then 
+    	grdQ2.Ask()
+    	
+    	if grdQ2._1.Q2 = {_excl97} and grdQ2._2.Q2 = {_excl97} then goto Fraud
+    end if
+
+'	grdQ2_1.Categories.Filter = Q1
+'	grdQ2_2.Categories.Filter = Q1
+''	if containsAny(Q1, catRange(3,6)) then 
+'	page1.Ask()
+
+
+'ИСТОРИЯ ПОЕЗДОК
+if containsAny(Q1, catRange(3,6)) then
+
+	i1 = 0
+	
+	if grdQ2._1.Q2 <> {_excl97} then
+prev:
+		i1 = 0
+		
+		grdQ2_1.Categories.Filter = Q1
+		grdQ2_1.Ask()
+		
+		help = {}
+		loop_Q3_1.Categories.Filter = Q1
+		loop_Q3_1[..].grdQ3_1.Validation.Function = "checkQ3_1"
+		loop_Q3_1[..].grdQ3_1.MustAnswer = false
+		for each cat in loop_Q3_1.Categories
+			
+			if grdQ2_1[cat].Q2_1 > 0 then
+				i1 = i1 + grdQ2_1[cat].Q2_1
+			
+				loop_Q3_1[cat].P0 = cat
+				s = loop_Q3_1.Categories[cat].Label
+				loop_Q3_1[cat].grdQ3_1.Ask()
+				
+				sum = 0
+				for each cat2 in loop_Q3_1[cat].grdQ3_1.Categories
+					sum = sum + loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_2
+				next
+				if grdQ2_1[cat].Q2_1 <> sum then 
+					help = cat
+					exit for
+				end if
+			end if
+		next
+		if help <> {} then 
+			s = grdQ2_1.Categories[help].label
+			ss = cText(grdQ2_1[help].Q2_1)
+			Q4_1b_Info.Ask()
+			
+			goto prev
+		end if
+		
+	
+	'	for each cat in grdQ3_1.Categories
+	'    	grdQ3_1[cat].Q3_0.Ask()
+	'    	
+	'    	helpset = {}
+	'    	select case grdQ3_1[cat].Q3_0
+	'        case {_1}
+	'            helpset = CatRange(104,146) + CatRange(166,170) + {_177} + {_999}
+	'        case {_2}
+	'            helpset = CatRange(42,52) + {_999}
+	'        case {_3}
+	'            helpset = CatRange(150,165) + CatRange(172,176) + {_999}
+	'        case {_4}
+	'            helpset = CatRange(53,66) + {_149,_999}
+	'        case {_5}
+	'            helpset = CatRange(11,41) + {_999}
+	'        case {_6}
+	'            helpset = CatRange(88,103) + {_999}
+	'        case {_7}
+	'            helpset = CatRange(67,86) + {_171,_999}
+	'        case {_8}
+	'            helpset = CatRange(1,10) + {_999}
+	'    	end select
+	'    	
+	'    	grdQ3_1[cat].Q3_1.Categories.Filter = helpset
+	'    	grdQ3_1[cat].Q3_1.Ask()
+	'    next
+	
+	
+		for each cat in loop_Q3_1.Categories
+			helpset = {}
+			for each cat2 in loop_Q3_1[cat].grdQ3_1.Categories
+				if loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_2 > 0 then 
+					helpset = helpset + cat2
+					if trim(loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1)="" then
+						s = loop_Q3_1[cat].grdQ3_1[cat2].Q3_1.Categories[loop_Q3_1[cat].grdQ3_1[cat2].Q3_1].label
+					else
+						s = loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1
+					end if
+					if cat2 = {_1} then ss1 = s
+					if cat2 = {_2} then ss2 = s
+
+				end if
+			next
+			
+			loop_Q5_1[cat].grdQ5_1[..].Q5_1.Categories.Filter = grdQ2._1.Q2
+			loop_Q5_1[cat].grdQ5_1.Categories.Filter = helpset
+			loop_Q5_1[cat].grdQ5_1.Ask()
+		next
+	end if
+
+'test:
+'Q1={_3,_4}
+
+	i2 = 0
+	
+	if grdQ2._2.Q2 <> {_excl97} then
+prev2:
+		i2 = 0
+		
+		grdQ2_2.Categories.Filter = Q1
+		grdQ2_2.Ask()
+		
+		help = {}
+		loop_Q3_2.Categories.Filter = Q1
+		loop_Q3_2[..].grdQ3_2.Validation.Function = "checkQ3_2"
+		loop_Q3_2[..].grdQ3_2.MustAnswer = false
+		for each cat in loop_Q3_2.Categories
+		
+			if grdQ2_2[cat].Q2_2 > 0 then
+				i2 = i2 + grdQ2_2[cat].Q2_2
+			
+				loop_Q3_2[cat].P0 = cat
+				s = loop_Q3_2.Categories[cat].Label
+				loop_Q3_2[cat].grdQ3_2.Ask()
+				
+				sum = 0
+				for each cat2 in loop_Q3_2[cat].grdQ3_2.Categories
+					sum = sum + loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_2
+				next
+				if grdQ2_2[cat].Q2_2 <> sum then 
+					help = cat
+					exit for
+				end if
+			end if
+		next
+		if help <> {} then 
+			s = grdQ2_2.Categories[help].label
+			ss = cText(grdQ2_2[help].Q2_2)
+			Q4_2b_Info.Ask()
+			
+			goto prev2
+		end if
+	
+		for each cat in loop_Q3_2.Categories
+			helpset = {}
+			for each cat2 in loop_Q3_2[cat].grdQ3_2.Categories
+				if loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_2 > 0 then 
+					helpset = helpset + cat2
+					if trim(loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1)="" then
+						s = loop_Q3_2[cat].grdQ3_2[cat2].Q3_2.Categories[loop_Q3_2[cat].grdQ3_2[cat2].Q3_2].label
+					else
+						s = loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1
+					end if
+					if cat2 = {_1} then ss1 = s
+					if cat2 = {_2} then ss2 = s
+
+				end if
+			next
+			
+			loop_Q5_2[cat].grdQ5_2[..].Q5_2.Categories.Filter = grdQ2._2.Q2
+			loop_Q5_2[cat].grdQ5_2.Categories.Filter = helpset
+			loop_Q5_2[cat].grdQ5_2.Ask()
+		next
+	end if
+	
+	if i1 + i2 = 0 then goto Fraud
+	if containsAny(Q1, {_3}) and grdQ2_1._3.Q2_1 + grdQ2_1._3.Q2_1 = 0 then goto Fraud
+	if containsAny(Q1, {_4}) and grdQ2_1._4.Q2_1 + grdQ2_1._4.Q2_1 = 0 then goto Fraud
+	if containsAny(Q1, {_5}) and grdQ2_1._5.Q2_1 + grdQ2_1._5.Q2_1 = 0 then goto Fraud
+	if containsAny(Q1, {_6}) and grdQ2_1._6.Q2_1 + grdQ2_1._6.Q2_1 = 0 then goto Fraud
+	
+
+if grdQ2._1.Q2 <> {_excl97} then	
+	loop_Q7.Categories.Filter = Q1
+	for each cat in loop_Q7.Categories
+		helpset = {}
+		
+			for each cat2 in loop_Q3_1[cat].grdQ3_1.Categories
+				if loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_2 > 0 then 
+					helpset = helpset + cat2
+					if trim(loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1)="" then
+						s = loop_Q5_1[cat].grdQ5_1[cat2].Q5_1.Categories[loop_Q5_1[cat].grdQ5_1[cat2].Q5_1].label + "  в  городе: <u>" +loop_Q3_1[cat].grdQ3_1[cat2].Q3_1.Categories[loop_Q3_1[cat].grdQ3_1[cat2].Q3_1].label + "</u>"
+					else
+						s = loop_Q5_1[cat].grdQ5_1[cat2].Q5_1.Categories[loop_Q5_1[cat].grdQ5_1[cat2].Q5_1].label + "  в  городе: <u>" +loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1 + "</u>"
+					end if
+					if cat2 = {_1} then ss1 = s
+					if cat2 = {_2} then ss2 = s
+
+				end if
+			next
+		
+		loop_Q7[cat].grdQ7_1.Categories.Filter = helpset
+		loop_Q7[cat].grdQ7_1.Ask()
+	next
+end if
+
+if grdQ2._2.Q2 <> {_excl97} then
+	for each cat in loop_Q7.Categories
+		helpset = {}
+			for each cat2 in loop_Q3_2[cat].grdQ3_2.Categories
+				if loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_2 > 0 then 
+					helpset = helpset + cat2
+					if trim(loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1)="" then
+						s = loop_Q5_2[cat].grdQ5_2[cat2].Q5_2.Categories[loop_Q5_2[cat].grdQ5_2[cat2].Q5_2].label + "  в стране: <u>" +loop_Q3_2[cat].grdQ3_2[cat2].Q3_2.Categories[loop_Q3_2[cat].grdQ3_2[cat2].Q3_2].label + "</u>"
+					else
+						s = loop_Q5_2[cat].grdQ5_2[cat2].Q5_2.Categories[loop_Q5_2[cat].grdQ5_2[cat2].Q5_2].label + "  в стране: <u>" +loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1 + "</u>"
+					end if
+					if cat2 = {_1} then ss1 = s
+					if cat2 = {_2} then ss2 = s
+
+				end if
+			next
+		
+		loop_Q7[cat].grdQ7_2.Categories.Filter = helpset
+		loop_Q7[cat].grdQ7_2.Ask()
+	next
+end if
+
+end if
+
+
+''ПОСЛЕДНЯЯ ПОЕЗДКА 
+	LAST_TRIP_mountain = false
+	LAST_TRIP_mountain2 = false
+	LAST_TRIP_rus = false
+	s = ""
+
+
+if grdQ2._2.Q2 <> {_excl97} then	
+	loop_Q7.Categories.Filter = Q1
+	
+	for each cat in loop_Q7.Categories
+		
+		LAST_TRIP_month = {_1}
+		for each cat2 in loop_Q3_2[cat].grdQ3_2.Categories
+			
+			if loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_2 > 0 then
+						
+				helpset = loop_Q7[cat].grdQ7_2[cat2].Q7_2
+				for i = 0 to answerCount(helpset) - 1
+					ttt = Mid(helpset, i, 1)
+					
+					bool_month = (LAST_TRIP_month.categories[LAST_TRIP_month].Properties["Value"] <= LAST_TRIP_month.categories[ttt].Properties["Value"] )
+					help = loop_Q5_2[cat].grdQ5_2[cat2].Q5_2
+					if (bool_month and not LAST_TRIP_mountain) or (bool_month and containsAny(help, catRange(4,6))) then					
+						LAST_TRIP_year = cat
+						LAST_TRIP_city = cat2
+						LAST_TRIP_type = help
+						LAST_TRIP_month = ttt
+						
+						if trim(loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1)="" then
+							s = loop_Q5_2[cat].grdQ5_2[cat2].Q5_2.Categories[loop_Q5_2[cat].grdQ5_2[cat2].Q5_2].label + "  в стране <u>" +loop_Q3_2[cat].grdQ3_2[cat2].Q3_2.Categories[loop_Q3_2[cat].grdQ3_2[cat2].Q3_2].label + "</u>  <b>" + LAST_TRIP_month.Categories[LAST_TRIP_month].Label + " " + LAST_TRIP_year.Categories[LAST_TRIP_year].Label + "</b>"
+						else
+							s = loop_Q5_2[cat].grdQ5_2[cat2].Q5_2.Categories[loop_Q5_2[cat].grdQ5_2[cat2].Q5_2].label + "  в стране <u>" +loop_Q3_2[cat].grdQ3_2[cat2].Q3_2_1 + "</u>  <b>" + LAST_TRIP_month.Categories[LAST_TRIP_month].Label + " " + LAST_TRIP_year.Categories[LAST_TRIP_year].Label + "</b>"
+						end if
+						
+						if containsAny(help, catRange(4,6)) then 
+							LAST_TRIP_mountain = true
+							LAST_TRIP_mountain2 = true
+						end if
+					end if
+					
+				next	
+			end if
+			
+		next
+	next
+end if
+
+
+if grdQ2._1.Q2 <> {_excl97} then	
+	loop_Q7.Categories.Filter = Q1
+	
+	for each cat in loop_Q7.Categories
+		
+		LAST_TRIP_month = {_1}
+		for each cat2 in loop_Q3_1[cat].grdQ3_1.Categories
+			
+			if loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_2 > 0 then
+						
+				helpset = loop_Q7[cat].grdQ7_1[cat2].Q7_1
+				for i = 0 to answerCount(helpset) - 1
+					ttt = Mid(helpset, i, 1)
+					
+					bool_month = (LAST_TRIP_month.categories[LAST_TRIP_month].Properties["Value"] <= LAST_TRIP_month.categories[ttt].Properties["Value"] )
+					help = loop_Q5_1[cat].grdQ5_1[cat2].Q5_1
+					if (LAST_TRIP_mountain2 and containsAny(help, catRange(4,6))) or (bool_month and not LAST_TRIP_mountain) or (bool_month and containsAny(help, catRange(4,6))) then					
+						LAST_TRIP_year = cat
+						LAST_TRIP_city = cat2
+						LAST_TRIP_type = help
+						LAST_TRIP_month = ttt
+						LAST_TRIP_rus = true
+						
+						if trim(loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1)="" then
+							s = loop_Q5_1[cat].grdQ5_1[cat2].Q5_1.Categories[loop_Q5_1[cat].grdQ5_1[cat2].Q5_1].label + "  в городе <u>" +loop_Q3_1[cat].grdQ3_1[cat2].Q3_1.Categories[loop_Q3_1[cat].grdQ3_1[cat2].Q3_1].label + "</u>  <b>" + LAST_TRIP_month.Categories[LAST_TRIP_month].Label + " " + LAST_TRIP_year.Categories[LAST_TRIP_year].Label + "</b>"
+						else
+							s = loop_Q5_1[cat].grdQ5_1[cat2].Q5_1.Categories[loop_Q5_1[cat].grdQ5_1[cat2].Q5_1].label + "  в городе <u>" +loop_Q3_1[cat].grdQ3_1[cat2].Q3_1_1 + "</u>  <b>" + LAST_TRIP_month.Categories[LAST_TRIP_month].Label + " " + LAST_TRIP_year.Categories[LAST_TRIP_year].Label + "</b>"
+						end if
+						
+						if containsAny(help, catRange(4,6)) then 
+							LAST_TRIP_mountain = true
+							LAST_TRIP_mountain2 = false
+						end if
+					end if
+					
+				next	
+			end if
+			
+		next
+	next
+end if	
+	
+if s <> "" then
+'	s = LAST_TRIP_type.Categories[LAST_TRIP_type].Label + "  в  городе " + LAST_TRIP_city.Categories[LAST_TRIP_city].Label  + "  " + LAST_TRIP_month.Categories[LAST_TRIP_month].Label + " " + LAST_TRIP_year.Categories[LAST_TRIP_year].Label
+	
+    H0_Info.Ask()
+
+    H0.Ask()
+
+
+	H1.Validation.Function = "checkH1"
+    H1.Ask()
+
+
+    H2.Ask()
+
+    H3.Ask()
+
+    H4.Ask()
+
+    H5.Ask()
+
+	H6.Categories.Filter = definedCategories(H6) - IIF(LAST_TRIP_rus,{_14,_19},{_20})
+    if containsAny(H5, catRange(1,3)) then H6.Ask()
+    
+    if containsAny(H5, catRange(1,3)) then M1.Ask()
+    
+end if
+
+		
+
+' БУДУЩИЕ ПОЕЗДКИ   
+'    F1_1.Ask()
+'
+'    F1_2.Ask()
+'test:
+'grdQ2.Ask()
+'
+	page2.Ask()
+
+    if F1_1 = {_excl97} then grdX1.Ask()
+
+'test:
+'grdQ2.Ask()
+
+'ЗНАНИЕ И ПОЛЬЗОВАНИЕ ГОРНЫХ КУРОРТОВ РОССИИ
+    F2.Ask()
+
+    if F2 <> {_excl99} then 
+    	F3.Categories.Filter = F2 + {_excl97}
+    	F3.Ask()
+
+    	if containsAny(grdQ2._1.Q2, {_4,_5,_6} ) then 
+    		F4.Categories.Filter = F3 + {_excl97}
+    		if F3 <> {_excl97} then F4.Ask()
+		end if
+		
+		F5.Categories.Filter = F2 + {_excl999}
+    	if containsAny(F1_1, {_4,_5,_6} ) then F5.Ask()
+    else
+    	if containsAny(grdQ2._1.Q2, {_4,_5,_6} ) then goto Fraud
+    	
+	end if
+	
+'ОПИСАНИЕ КОНЦЕПЦИИ	
+'test:
+
+    T1_Info.Ask()
+
+    T1.Ask()
+
+    T2.Ask()
+
+    T3.Ask()
+
+    T4.Ask()
+
+    if containsAny(T4, {_4,_5}) then READY.Ask()
+
+    if containsAny(T4, {_1,_2}) then REJECT.Ask()
+
+'    M1.Ask()
+
+
+'ДЕМОГРАФИЯ
+    D1_Info.Ask()
+
+    D1.Ask()
+
+    D2.Ask()
+
+	grdD3.Categories.Filter = catRange(0, D2.Categories[D2].Properties["Value"])
+    grdD3.Ask()
+
+    D4.Ask()
+
+    D5.Ask()
+
+    D6.Ask()
+    
+    
+    
+end section
